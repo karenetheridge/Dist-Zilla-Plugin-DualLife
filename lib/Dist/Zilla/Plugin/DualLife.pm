@@ -32,8 +32,7 @@ to:
 
     'INSTALLDIRS' => ($] >= 5.009005 && $] <= 5.011000 ? 'perl' : 'site'),
 
-If the module didn't enter core in 5.009005, set the C<entered_core>
-attribute appropriately:
+(assuming a module that entered core in 5.009005).
 
     [DualLife]
     entered_core=5.006001
@@ -42,15 +41,21 @@ attribute appropriately:
 
 =attr entered_core
 
-Indicates when the distribution joined core.  Defaults to 5.009005 for
-all the things that came in for 5.10.
+Indicates when the distribution joined core.  This option is not normally
+needed, as L<Module::CoreList> is used to determine this.
 
 =cut
 
 has entered_core => (
     is => 'ro',
     isa => 'Str',
-    default => "5.009005",
+    lazy => 1,
+    default => sub {
+        my $self = shift;
+        (my $name = $self->zilla->name) =~ s/-/::/g;
+        require Module::CoreList;
+        return Module::CoreList->first_release($name);
+    },
 );
 
 =attr eumm_bundled
