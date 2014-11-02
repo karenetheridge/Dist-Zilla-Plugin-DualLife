@@ -1,4 +1,6 @@
-.*
-!.gitignore
-Dist-Zilla-Plugin-DualLife-*
-Debian_CPANTS.txt
+/.ackrc
+/.build/
+!/.gitignore
+/.latest
+/Dist-Zilla-Plugin-DualLife-*/
+/Dist-Zilla-Plugin-DualLife-*.tar.gz
