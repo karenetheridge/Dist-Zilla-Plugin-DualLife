@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.04      2014-11-02 19:42:43Z
           - do nothing if the version the module entered core is late enough
             that no special action is needed
           - calculate 'entered_core' parameter from Module::CoreList, rather
