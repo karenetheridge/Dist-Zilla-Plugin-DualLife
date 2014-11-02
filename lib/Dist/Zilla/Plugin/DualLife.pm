@@ -38,11 +38,7 @@ attribute appropriately:
     [DualLife]
     entered_core=5.006001
 
-=begin Pod::Coverage
-
-setup_installer
-
-=end Pod::Coverage
+=for Pod::Coverage setup_installer
 
 =attr entered_core
 
