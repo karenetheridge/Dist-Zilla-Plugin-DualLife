@@ -5,6 +5,7 @@ Revision history for {{$dist->name}}
             that no special action is needed
           - calculate 'entered_core' parameter from Module::CoreList, rather
             than assuming 5.009005
+          - build fails if module is not dual-life at all
 
 0.03      2013-08-30 16:20:05Z
           - Document entered_core (David Golden).

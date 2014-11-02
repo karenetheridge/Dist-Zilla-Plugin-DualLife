@@ -83,6 +83,10 @@ sub setup_installer {
         return;
     }
 
+    # technically this only checks if the module is core, not dual-lifed, but a
+    # separate repository shouldn't exist for non-dual modules anyway
+    $self->log_fatal('this module is not dual-life!') if not $entered;
+
     my $makefile = first { $_->name eq 'Makefile.PL' } @{ $self->zilla->files };
     $self->log_fatal('No Makefile.PL. It needs to be provided by another plugin')
         unless $makefile;
