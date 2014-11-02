@@ -71,12 +71,18 @@ has eumm_bundled => (
 sub setup_installer {
     my ($self) = @_;
 
+    my $entered = $self->entered_core;
+
+    if ($entered > 5.011000 && not $self->eumm_bundled) {
+        $self->log('this module entered core after 5.011 - nothing to do here');
+        return;
+    }
+
     my $makefile = first { $_->name eq 'Makefile.PL' } @{ $self->zilla->files };
     $self->log_fatal('No Makefile.PL. It needs to be provided by another plugin')
         unless $makefile;
 
     my $content = $makefile->content;
-    my $entered = $self->entered_core;
 
     my $dual_life_args = q[$WriteMakefileArgs{INSTALLDIRS} = 'perl'];
 

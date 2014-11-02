@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - do nothing if the version the module entered core is late enough
+            that no special action is needed
 
 0.03      2013-08-30 16:20:05Z
           - Document entered_core (David Golden).
