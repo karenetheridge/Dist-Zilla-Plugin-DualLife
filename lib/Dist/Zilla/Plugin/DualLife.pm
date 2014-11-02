@@ -2,7 +2,7 @@ package Dist::Zilla::Plugin::DualLife;
 # ABSTRACT: Distribute dual-life modules with Dist::Zilla
 
 use Moose;
-use List::AllUtils 'first';
+use List::Util 'first';
 use namespace::autoclean;
 
 with 'Dist::Zilla::Role::InstallTool';
