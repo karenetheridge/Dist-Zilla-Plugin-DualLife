@@ -1,6 +1,8 @@
 package Dist::Zilla::Plugin::DualLife;
 # ABSTRACT: Distribute dual-life modules with Dist::Zilla
 
+our $VERSION = '0.05';
+
 use Moose;
 use List::Util 'first';
 use namespace::autoclean;
