@@ -11,15 +11,7 @@ my $tzil = Builder->from_config(
     { dist_root => 'does-not-exist' },
     {
         add_files => {
-            path(qw(source dist.ini)) => dist_ini(
-                {
-                    name     => 'warnings',
-                    abstract => 'oh noes!',
-                    version  => '2.123',
-                    author   => 'E. Xavier Ample <example@example.org>',
-                    license  => 'Perl_5',
-                    copyright_holder => 'E. Xavier Ample',
-                },
+            path(qw(source dist.ini)) => simple_ini(
                 [ GatherDir => ],
                 [ MakeMaker => ],
                 [ DualLife  => { entered_core => '5.010001' } ],
