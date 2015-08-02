@@ -59,6 +59,7 @@ has entered_core => (
         my $mmd = $self->module_metadata_for_file($self->zilla->main_module);
         my $module = ($mmd->packages_inside)[0];
         require Module::CoreList;
+        Module::CoreList->VERSION('2.19');
         return Module::CoreList->first_release($module);
     },
 );

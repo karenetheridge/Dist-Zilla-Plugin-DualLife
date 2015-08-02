@@ -3,6 +3,8 @@ Revision history for Dist-Zilla-Plugin-DualLife
 {{$NEXT}}
           - use Module::Metadata to extract the package name of the main
             module, rather than deriving it from the distribution name
+          - bump prereq on Module::CoreList, to ensure it is new enough to be
+            aware of all relevant core releases
 
 0.04      2014-11-02 19:42:43Z
           - do nothing if the version the module entered core is late enough
