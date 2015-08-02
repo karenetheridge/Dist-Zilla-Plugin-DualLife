@@ -76,7 +76,7 @@ core prior to v5.12 so they take precedence.
 has eumm_bundled => (
     is => 'ro',
     isa => 'Bool',
-    default => "0",
+    default => 0,
 );
 
 sub setup_installer {
