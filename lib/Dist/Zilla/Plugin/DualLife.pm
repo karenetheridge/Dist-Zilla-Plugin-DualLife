@@ -53,15 +53,6 @@ needed, as L<Module::CoreList> is used to determine this.
 has entered_core => (
     is => 'ro',
     isa => 'Str',
-    lazy => 1,
-    default => sub {
-        my $self = shift;
-        my $mmd = $self->module_metadata_for_file($self->zilla->main_module);
-        my $module = ($mmd->packages_inside)[0];
-        require Module::CoreList;
-        Module::CoreList->VERSION('2.19');
-        return Module::CoreList->first_release($module);
-    },
 );
 
 =attr eumm_bundled
@@ -82,16 +73,25 @@ has eumm_bundled => (
 sub setup_installer {
     my ($self) = @_;
 
-    my $entered = $self->entered_core;
+    my $entered = $self->entered_core || do {
+        my $mmd = $self->module_metadata_for_file($self->zilla->main_module);
+        my $module = ($mmd->packages_inside)[0];
+        require Module::CoreList;
+        Module::CoreList->VERSION('2.19');
+        Module::CoreList->first_release($module);
+    };
 
-    if ($entered > 5.011000 && not $self->eumm_bundled) {
-        $self->log('this module entered core after 5.011 - nothing to do here');
-        return;
+    if (not $self->eumm_bundled)
+    {
+        # technically this only checks if the module is core, not dual-lifed, but a
+        # separate repository shouldn't exist for non-dual modules anyway
+        $self->log_fatal('this module is not dual-life!') if not $entered;
+
+        if ($entered > 5.011000) {
+            $self->log('this module entered core after 5.011 - nothing to do here');
+            return;
+        }
     }
-
-    # technically this only checks if the module is core, not dual-lifed, but a
-    # separate repository shouldn't exist for non-dual modules anyway
-    $self->log_fatal('this module is not dual-life!') if not $entered;
 
     my $makefile = first { $_->name eq 'Makefile.PL' } @{ $self->zilla->files };
     $self->log_fatal('No Makefile.PL. It needs to be provided by another plugin')

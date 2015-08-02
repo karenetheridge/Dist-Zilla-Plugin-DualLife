@@ -5,6 +5,7 @@ Revision history for Dist-Zilla-Plugin-DualLife
             module, rather than deriving it from the distribution name
           - bump prereq on Module::CoreList, to ensure it is new enough to be
             aware of all relevant core releases
+          - fix checks for module not being dual-lifed at all
 
 0.04      2014-11-02 19:42:43Z
           - do nothing if the version the module entered core is late enough
