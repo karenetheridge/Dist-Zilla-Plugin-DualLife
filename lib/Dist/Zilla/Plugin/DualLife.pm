@@ -7,7 +7,9 @@ use Moose;
 use List::Util 'first';
 use namespace::autoclean;
 
-with 'Dist::Zilla::Role::InstallTool';
+with
+    'Dist::Zilla::Role::ModuleMetadata',
+    'Dist::Zilla::Role::InstallTool';
 
 =head1 SYNOPSIS
 
@@ -54,9 +56,10 @@ has entered_core => (
     lazy => 1,
     default => sub {
         my $self = shift;
-        (my $name = $self->zilla->name) =~ s/-/::/g;
+        my $mmd = $self->module_metadata_for_file($self->zilla->main_module);
+        my $module = ($mmd->packages_inside)[0];
         require Module::CoreList;
-        return Module::CoreList->first_release($name);
+        return Module::CoreList->first_release($module);
     },
 );
 
