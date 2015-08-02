@@ -6,6 +6,7 @@ Revision history for Dist-Zilla-Plugin-DualLife
           - bump prereq on Module::CoreList, to ensure it is new enough to be
             aware of all relevant core releases
           - fix checks for module not being dual-lifed at all
+          - configuration variables are now included in distribution metadata
 
 0.04      2014-11-02 19:42:43Z
           - do nothing if the version the module entered core is late enough

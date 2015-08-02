@@ -5,6 +5,7 @@ use Test::More;
 use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::DZil;
 use Test::Fatal;
+use Test::Deep;
 use Path::Tiny;
 
 my $tzil = Builder->from_config(
@@ -16,6 +17,7 @@ my $tzil = Builder->from_config(
                     name => 'warnings',
                 },
                 [ GatherDir => ],
+                [ MetaConfig => ],
                 [ MakeMaker => ],
                 [ DualLife  => ],
             ),
@@ -44,6 +46,27 @@ like(
     qr/\$WriteMakefileArgs\{INSTALLDIRS\} = 'perl'\s+if \$\] >= 5\.006 && \$\] <= 5\.011000;.*WriteMakefile\(\%WriteMakefileArgs\);/ms,
     'Makefile.PL has INSTALLDIRS arg set before calling WriteMakefile',
 );
+
+cmp_deeply(
+    $tzil->distmeta,
+    superhashof({
+        x_Dist_Zilla => superhashof({
+            plugins => supersetof(
+                {
+                    class => 'Dist::Zilla::Plugin::DualLife',
+                    config => superhashof({ # there will be configs for Dist::Zilla::Role::ModuleMetadata as well
+                        'Dist::Zilla::Plugin::DualLife' => {
+                            eumm_bundled => 0,
+                        },
+                    }),
+                    name => 'DualLife',
+                    version => Dist::Zilla::Plugin::DualLife->VERSION,
+                },
+            ),
+        }),
+    }),
+    'dumped configs to metadata',
+) or diag 'got distmeta: ', explain $tzil->distmeta;
 
 diag 'got log messages: ', explain $tzil->log_messages
     if not Test::Builder->new->is_passing;

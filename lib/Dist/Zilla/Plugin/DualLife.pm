@@ -70,6 +70,19 @@ has eumm_bundled => (
     default => 0,
 );
 
+around dump_config => sub
+{
+    my ($orig, $self) = @_;
+    my $config = $self->$orig;
+
+    $config->{+__PACKAGE__} = {
+        $self->entered_core ? ( entered_core => $self->entered_core ) : (),
+        eumm_bundled => $self->eumm_bundled ? 1 : 0,
+    };
+
+    return $config;
+};
+
 sub setup_installer {
     my ($self) = @_;
 
