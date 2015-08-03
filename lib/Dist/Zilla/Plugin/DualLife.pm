@@ -1,5 +1,6 @@
 package Dist::Zilla::Plugin::DualLife;
 # ABSTRACT: Distribute dual-life modules with Dist::Zilla
+# KEYWORDS: Makefile.PL core dual-life install INSTALLDIRS
 
 our $VERSION = '0.05';
 
