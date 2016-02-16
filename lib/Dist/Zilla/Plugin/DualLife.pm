@@ -79,6 +79,7 @@ around dump_config => sub
     $config->{+__PACKAGE__} = {
         $self->entered_core ? ( entered_core => $self->entered_core ) : (),
         eumm_bundled => $self->eumm_bundled ? 1 : 0,
+        blessed($self) ne __PACKAGE__ ? ( version => $VERSION ) : (),
     };
 
     return $config;
