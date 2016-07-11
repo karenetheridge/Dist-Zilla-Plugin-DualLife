@@ -40,7 +40,7 @@ unlike($makefile, qr/[^\S\n]\n/, 'no trailing whitespace in modified file');
 
 like(
     $makefile,
-    qr/\$WriteMakefileArgs\{INSTALLDIRS\} = 'perl'\s+if \$\] >= 5\.010001 && \$\] <= 5.011000;.*WriteMakefile\(\%WriteMakefileArgs\);/ms,
+    qr/\$WriteMakefileArgs\{INSTALLDIRS\} = 'perl'\s+if \"\$\]\" >= 5\.010001 && \"\$\]\" <= 5.011000;.*WriteMakefile\(\%WriteMakefileArgs\);/ms,
     'Makefile.PL has INSTALLDIRS arg set under correct conditions',
 );
 

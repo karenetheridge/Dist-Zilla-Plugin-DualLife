@@ -35,7 +35,7 @@ module will try to address them as well.
 The options added to your C<Makefile.PL> by this module are roughly equivalent
 to:
 
-    'INSTALLDIRS' => ($] >= 5.009005 && $] <= 5.011000 ? 'perl' : 'site'),
+    'INSTALLDIRS' => ("$]" >= 5.009005 && "$]" <= 5.011000 ? 'perl' : 'site'),
 
 (assuming a module that entered core in 5.009005).
 
@@ -117,10 +117,10 @@ sub setup_installer {
     my $dual_life_args = q[$WriteMakefileArgs{INSTALLDIRS} = 'perl'];
 
     if ( $self->eumm_bundled ) {
-        $dual_life_args .= "\n    if \$] <= 5.011000;\n\n";
+        $dual_life_args .= "\n    if \"\$]\" <= 5.011000;\n\n";
     }
     else {
-        $dual_life_args .= "\n    if \$] >= $entered && \$] <= 5.011000;\n\n"
+        $dual_life_args .= "\n    if \"\$]\" >= $entered && \"\$]\" <= 5.011000;\n\n"
     }
 
     $content =~ s/(?=WriteMakefile\s*\()/$dual_life_args/
