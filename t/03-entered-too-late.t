@@ -44,8 +44,8 @@ unlike(
 );
 
 cmp_deeply(
-    $tzil->log_messages,
-    superbagof('[DualLife] this module entered core after 5.011 - nothing to do here'),
+    [ grep { /^\[DualLife\]/ } @{ $tzil->log_messages } ],
+    [ '[DualLife] this module entered core after 5.011 - nothing to do here' ],
     'warning given that this plugin is not adding anything',
 );
 
