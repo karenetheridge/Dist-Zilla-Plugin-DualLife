@@ -8,7 +8,7 @@ Dist::Zilla::Plugin::DualLife - Distribute dual-life modules with Dist::Zilla
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 SYNOPSIS
 
@@ -33,7 +33,7 @@ module will try to address them as well.
 The options added to your C<Makefile.PL> by this module are roughly equivalent
 to:
 
-    'INSTALLDIRS' => ($] >= 5.009005 && $] <= 5.011000 ? 'perl' : 'site'),
+    'INSTALLDIRS' => ("$]" >= 5.009005 && "$]" <= 5.011000 ? 'perl' : 'site'),
 
 (assuming a module that entered core in 5.009005).
 
@@ -54,7 +54,18 @@ bundled modules might get installed into the core library directory, so
 even if they didn't come into core until later, they need to be forced into
 core prior to v5.12 so they take precedence.
 
-=for Pod::Coverage setup_installer
+=for Pod::Coverage munge_files
+
+=head1 SUPPORT
+
+Bugs may be submitted through L<the RT bug tracker|https://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-Plugin-DualLife>
+(or L<bug-Dist-Zilla-Plugin-DualLife@rt.cpan.org|mailto:bug-Dist-Zilla-Plugin-DualLife@rt.cpan.org>).
+
+There is also a mailing list available for users of this distribution, at
+L<http://dzil.org/#mailing-list>.
+
+There is also an irc channel available for users of this distribution, at
+L<C<#distzilla> on C<irc.perl.org>|irc://irc.perl.org/#distzilla>.
 
 =head1 AUTHOR
 
@@ -76,7 +87,7 @@ David Golden <dagolden@cpan.org>
 
 =back
 
-=head1 COPYRIGHT AND LICENSE
+=head1 COPYRIGHT AND LICENCE
 
 This software is copyright (c) 2010 by Florian Ragwitz.
 
