@@ -5,12 +5,18 @@ package Dist::Zilla::Plugin::DualLife;
 our $VERSION = '0.06';
 
 use Moose;
-use List::Util 'first';
+use List::Util qw(first min);
 use namespace::autoclean;
 
 with
     'Dist::Zilla::Role::ModuleMetadata',
-    'Dist::Zilla::Role::FileMunger';
+    'Dist::Zilla::Role::FileMunger',
+    'Dist::Zilla::Role::FileFinderUser' => {
+        method          => 'module_files',
+        finder_arg_names => [ 'module_finder' ],
+        default_finders => [ ':InstallModules' ],
+    },
+;
 
 =head1 SYNOPSIS
 
@@ -92,13 +98,20 @@ sub munge_files
     my $makefile = first { $_->name eq 'Makefile.PL' } @{$self->zilla->files};
     $self->log_fatal('No Makefile.PL found! Is [MakeMaker] at least version 5.022?') if not $makefile;
 
-    my $entered = $self->entered_core || do {
-        my $mmd = $self->module_metadata_for_file($self->zilla->main_module);
-        my $module = ($mmd->packages_inside)[0];
+    my $entered = $self->entered_core;
+    if (not $entered)
+    {
         require Module::CoreList;
         Module::CoreList->VERSION('2.19');
-        Module::CoreList->first_release($module);
-    };
+        $entered = min(
+            map {
+                $self->log_debug([ 'looking up %s in Module::CoreList...', $_->name ]);
+                my $mmd = $self->module_metadata_for_file($_);
+                my $module = ($mmd->packages_inside)[0];
+                Module::CoreList->first_release($module);
+            } @{ $self->module_files }
+        );
+    }
 
     if (not $self->eumm_bundled)
     {

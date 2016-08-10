@@ -5,6 +5,9 @@ Revision history for Dist-Zilla-Plugin-DualLife
             content into pre-processed template: this allows other plugins to
             see the full file content earlier, and properly respects the
             purpose of each dzil phase.
+          - all modules in the distribution are now checked in
+            Module::CoreList, as they may have different entered_core versions
+            (e.g. autodie, Fatal)
 
 0.05      2015-08-03 02:46:08Z
           - use Module::Metadata to extract the package name of the main
