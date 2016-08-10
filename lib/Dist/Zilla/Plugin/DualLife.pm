@@ -10,7 +10,7 @@ use namespace::autoclean;
 
 with
     'Dist::Zilla::Role::ModuleMetadata',
-    'Dist::Zilla::Role::InstallTool';
+    'Dist::Zilla::Role::FileMunger';
 
 =head1 SYNOPSIS
 
@@ -42,7 +42,7 @@ to:
     [DualLife]
     entered_core=5.006001
 
-=for Pod::Coverage setup_installer
+=for Pod::Coverage munge_files
 
 =attr entered_core
 
@@ -85,8 +85,12 @@ around dump_config => sub
     return $config;
 };
 
-sub setup_installer {
-    my ($self) = @_;
+sub munge_files
+{
+    my $self = shift;
+
+    my $makefile = first { $_->name eq 'Makefile.PL' } @{$self->zilla->files};
+    $self->log_fatal('No Makefile.PL found! Is [MakeMaker] at least version 5.022?') if not $makefile;
 
     my $entered = $self->entered_core || do {
         my $mmd = $self->module_metadata_for_file($self->zilla->main_module);
@@ -108,12 +112,6 @@ sub setup_installer {
         }
     }
 
-    my $makefile = first { $_->name eq 'Makefile.PL' } @{ $self->zilla->files };
-    $self->log_fatal('No Makefile.PL. It needs to be provided by another plugin')
-        unless $makefile;
-
-    my $content = $makefile->content;
-
     my $dual_life_args = q[$WriteMakefileArgs{INSTALLDIRS} = 'perl'];
 
     if ( $self->eumm_bundled ) {
@@ -122,6 +120,8 @@ sub setup_installer {
     else {
         $dual_life_args .= "\n    if \"\$]\" >= $entered && \"\$]\" <= 5.011000;\n\n"
     }
+
+    my $content = $makefile->content;
 
     $content =~ s/(?=WriteMakefile\s*\()/$dual_life_args/
         or $self->log_fatal('Failed to insert INSTALLDIRS magic');

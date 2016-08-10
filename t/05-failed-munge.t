@@ -28,7 +28,7 @@ my $tzil = Builder->from_config(
 $tzil->chrome->logger->set_debug(1);
 like(
     exception { $tzil->build },
-    qr/^\[DualLife\] No Makefile.PL. It needs to be provided by another plugin/,
+    qr/^\Q[DualLife] No Makefile.PL found! Is [MakeMaker] at least version 5.022?\E/,
     'build fails - Makefile.PL content not present yet',
 );
 
