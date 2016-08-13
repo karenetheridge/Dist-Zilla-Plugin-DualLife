@@ -108,6 +108,8 @@ sub munge_files
                 $self->log_debug([ 'looking up %s in Module::CoreList...', $_->name ]);
                 my $mmd = $self->module_metadata_for_file($_);
                 my $module = ($mmd->packages_inside)[0];
+                # this returns the empty list when the module is not in core,
+                # so we don't have to worry about passing undefs to min().
                 Module::CoreList->first_release($module);
             } @{ $self->module_files }
         );
