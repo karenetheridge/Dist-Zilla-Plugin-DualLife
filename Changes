@@ -1,6 +1,6 @@
 Revision history for Dist-Zilla-Plugin-DualLife
 
-{{$NEXT}}
+0.07      2016-08-14 00:19:09Z
           - fix tests that break with older [MakeMaker] that did not create
             Makefile.PL at file gathering time
 
