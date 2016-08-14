@@ -2,7 +2,7 @@ package Dist::Zilla::Plugin::DualLife;
 # ABSTRACT: Distribute dual-life modules with Dist::Zilla
 # KEYWORDS: Makefile.PL core dual-life install INSTALLDIRS
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use Moose;
 use List::Util qw(first min);
